@@ -13,7 +13,7 @@ ssh fd@pwnable.kr -p2222 (pw:guest)
 
 SSH into the server, and inspect the immediate directory's contents.
 
-`ls -l`
+`ls -lh`
 
 
 ```
@@ -56,7 +56,7 @@ read() takes in STDIN if fd is valid (0, 1 or 2 for STDIN, STDOUT, or STDERR).
 
 But fd is being modified by having 0x1234 subtracted from argv[1]. So supply int value between 4660-4662 to be able to get into the read() call.
 
-### Capture the Flag
+### Capturing the Flag
 
 ```
 fd@ubuntu:~$ ./fd 4660
