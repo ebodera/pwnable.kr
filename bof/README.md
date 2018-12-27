@@ -84,6 +84,42 @@ conn.sendline(p)
 conn.interactive()
 ```
 
+# Solution Revisions
+
+Upon dissembling bof and inspecting function `func`, we can more precisely pad our overflow.
+
+```Disassembly
+0000062c <func>:
+ 62c:	55                   	push   %ebp
+ 62d:	89 e5                	mov    %esp,%ebp
+ 62f:	83 ec 48             	sub    $0x48,%esp
+ 632:	65 a1 14 00 00 00    	mov    %gs:0x14,%eax
+ 638:	89 45 f4             	mov    %eax,-0xc(%ebp)
+ 63b:	31 c0                	xor    %eax,%eax
+ 63d:	c7 04 24 8c 07 00 00 	movl   $0x78c,(%esp)
+ 644:	e8 fc ff ff ff       	call   645 <func+0x19>
+ 649:	8d 45 d4             	lea    -0x2c(%ebp),%eax
+ 64c:	89 04 24             	mov    %eax,(%esp)
+ 64f:	e8 fc ff ff ff       	call   650 <func+0x24>
+ 654:	81 7d 08 be ba fe ca 	cmpl   $0xcafebabe,0x8(%ebp)
+ 65b:	75 0e                	jne    66b <func+0x3f>
+ 65d:	c7 04 24 9b 07 00 00 	movl   $0x79b,(%esp)
+ 664:	e8 fc ff ff ff       	call   665 <func+0x39>
+ 669:	eb 0c                	jmp    677 <func+0x4b>
+ 66b:	c7 04 24 a3 07 00 00 	movl   $0x7a3,(%esp)
+ 672:	e8 fc ff ff ff       	call   673 <func+0x47>
+ 677:	8b 45 f4             	mov    -0xc(%ebp),%eax
+ 67a:	65 33 05 14 00 00 00 	xor    %gs:0x14,%eax
+ 681:	74 05                	je     688 <func+0x5c>
+ 683:	e8 fc ff ff ff       	call   684 <func+0x58>
+ 688:	c9                   	leave  
+ 689:	c3                   	ret   
+```
+
+A buffer of size 0x2c is created with the `lea    -0x2c(%ebp),%eax` instruction.
+
+Adding another 8 bytes to overflow $ebp and saved $eip would give us the correct size of our buffer.
+
 
 ### Capturing the Flag
 
