@@ -35,9 +35,9 @@ int main(int argc, char* argv[]){
 
 Immediately you can notice that this is a buffer overflow due to the use of insecure gets(), which doesn't specify a buffer limit.
 
-We need to overwrite the variable key so that it equals 0xcafebabe in order to get shell access.
+We need to overwrite the variable `key` so that it equals `0xcafebabe` in order to get `/bin/sh` access.
 
-Key is a parameter in this function and it's set to 0xdeadbeef, so let's open up pwndbg to find that on the stack and figure out the length of our padding.
+`key` is a parameter in this function and it's set to `0xdeadbeef`, so let's open up pwndbg to find that on the stack and figure out the length of our padding.
 
 `pwndbg ./bof`
 
