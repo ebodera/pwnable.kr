@@ -11,9 +11,9 @@ I wanna do something like that too!
 
 Let's start off by peaking around.
 
-`ls -lh`
-
-```
+```sh
+col@ubuntu:~$ ls -lh
+total 16K
 -r-sr-x--- 1 col_pwn col     7.2K Jun 11  2014 col
 -rw-r--r-- 1 root    root     555 Jun 12  2014 col.c
 -r--r----- 1 col_pwn col_pwn   52 Jun 11  2014 flag
@@ -59,7 +59,7 @@ So, cat is being run on flag is the output of check_password, which takes in arg
 
 Let's attempt to pass in raw bytes using python. Accounting for endianness, a potential entry would be:
 
-```
+```sh
 ./col "`python -c "print '\xEC\x09\xDD\x21' + '\x00'*16"`"
 ```
 
@@ -70,7 +70,7 @@ If we pad using 16 hex bytes equal to 1, then we need to subtract 0x04040404 fro
 
 ### Capturing the Flag
 
-```
+```sh
 col@ubuntu:~$ ./col "`python -c "print '\xE8\x05\xD9\x1D' + '\x01'*16"`"
 daddy! I just managed to create a hash collision :)
 ```

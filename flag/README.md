@@ -14,7 +14,9 @@ This is reversing task. all you need is binary
 
 Let's see what system calls are being executing when running `flag`.
 
-`strace ./flag`
+```sh
+strace ./flag
+```
 
 ```
 execve("./flag", ["./flag"], [/* 16 vars */]) = 0

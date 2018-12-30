@@ -13,10 +13,9 @@ https://youtu.be/971eZhMHQQw
 
 SSH into the server, and inspect the immediate directory's contents.
 
-`ls -lh`
-
-
-```
+```sh
+fd@ubuntu:~$ ls -lh
+total 16K
 -r-sr-x--- 1 fd_pwn fd   7.2K Jun 11  2014 fd
 -rw-r--r-- 1 root   root  418 Jun 11  2014 fd.c
 -r--r----- 1 fd_pwn root   50 Jun 11  2014 flag
@@ -58,7 +57,7 @@ But fd is being modified by having 0x1234 subtracted from argv[1]. So supply int
 
 ### Capturing the Flag
 
-```
+```sh
 fd@ubuntu:~$ ./fd 4660
 LETMEWIN
 good job :)

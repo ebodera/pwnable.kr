@@ -123,7 +123,7 @@ Adding another 8 bytes to overflow $ebp and saved $eip would give us the correct
 
 ### Capturing the Flag
 
-```
+```sh
 (ctftools)ctf@b1b157128929:~/challenges/bof$ python exploit.py
 [+] Opening connection to pwnable.kr on port 9000: Done
 [*] Switching to interactive mode
