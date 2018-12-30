@@ -166,7 +166,7 @@ Relocation section '.rel.plt' at offset 0x398 contains 9 entries:
 0804a020  00000907 R_386_JUMP_SLOT   00000000   __isoc99_scanf
 ```
 
-fflush is conveniently called right after our second scanf, and also has neither whitespace/null hex value representations in its address, so let's use that.
+`fflush(stdin)` is conveniently called right after our second scanf, and also has neither whitespace/null hex value representations in its address, so let's use that.
 
 `80485e3:	c7 04 24 af 87 04 08 	movl   $0x80487af,(%esp)` is where we want to jump to.
 
