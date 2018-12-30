@@ -8,3 +8,4 @@ My write-ups for the challenges in [pwnable.kr](pwnable.kr) as I work through th
 - [bof](bof/README.md)
 - [flag](flag/README.md)
 - [passcode](passcode/README.md)
+- [random](random/README.md)
