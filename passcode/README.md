@@ -16,7 +16,7 @@ After ssh, we see the following:
 ls -lh
 ```
 
-```sh
+```
 -r--r----- 1 root passcode_pwn   48 Jun 26  2014 flag
 -r-xr-sr-x 1 root passcode_pwn 7.4K Jun 26  2014 passcode
 -rw-r--r-- 1 root root          858 Jun 26  2014 passcode.c
@@ -150,7 +150,7 @@ Part of our buffer is reused in the stack of login(), particularly the memory ad
 
 So let's write an address with the last 4 bytes during `scanf("%100s", name)`, then overwrite with a value of our own during `scanf("%d", passcode1)`.
 
-One thing we can do, since this code is has dynamically linked libraries, is overwrite a reloc in the PLT so that our code jumps where we want when that call is made.
+One thing we can do, since this code is dynamically linked, is overwrite a reloc in the PLT so that our code jumps where we want when that call is made.
 
 ```
 Relocation section '.rel.plt' at offset 0x398 contains 9 entries:
