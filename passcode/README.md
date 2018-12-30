@@ -12,7 +12,9 @@ ssh passcode@pwnable.kr -p2222 (pw:guest)
 
 After ssh, we see the following:
 
-`ls -lh`
+```sh
+ls -lh
+```
 
 ```
 -r--r----- 1 root passcode_pwn   48 Jun 26  2014 flag
