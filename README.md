@@ -1,6 +1,6 @@
-# write-ups
-
 ![logo](http://www.pwnable.kr/logo.png)
+
+# write-ups
 
 My write-ups for the challenges in [pwnable.kr](pwnable.kr) as I work through them step by step.
 
