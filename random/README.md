@@ -1,3 +1,5 @@
+![logo](http://www.pwnable.kr/img/random.png)
+
 # random
 The sixth challenge from pwnable.kr
 
