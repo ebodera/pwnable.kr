@@ -247,7 +247,7 @@ int key3(){
 `key3()` is equal to `0x00008d80`.
 
 ```c
-nt key2(){
+int key2(){
 	asm(
 	"push	{r6}\n"
 	"add	r6, pc, $1\n"
