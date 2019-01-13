@@ -224,14 +224,15 @@ int key1(){
 }
 ```
 
-`pc` in ARM is Program Counter, so `key1()` should return the address of the next instruction at that moment.
+`pc` in ARM is the value of the current instruction plus 8 bytes, so `key1()` should return the address of the second next instruction at that moment.
 
 ```asm
 0x00008cdc <+8>:	mov	r3, pc
 0x00008ce0 <+12>:	mov	r0, r3
+0x00008ce4 <+16>:	sub	sp, r11, #0
 ```
 
-`key1()` is equal to `0x00008ce0`.
+`key1()` is equal to `0x00008ce4`.
 
 #### Key 2
 
@@ -251,6 +252,35 @@ int key2(){
 	);
 }
 ```
+
+The first section of this function puts the CPU into Thumb State with the `bx r6` instruction, with the single bit set from the previous command indicating this state.
+
+The CPU is now in 16-bit mode, which means values like `pc` are +4, not +8.
+
+Next the program adds `0x4` to `pc`, then returns that value. So let's take a look at the assembly to get the right addresses.
+
+```asm
+0x00008cf0 <+0>:	push	{r11}		; (str r11, [sp, #-4]!)
+0x00008cf4 <+4>:	add	r11, sp, #0
+0x00008cf8 <+8>:	push	{r6}		; (str r6, [sp, #-4]!)
+0x00008cfc <+12>:	add	r6, pc, #1 ; r6 = 0x00008d04 + 1 =
+0x00008d00 <+16>:	bx	r6
+0x00008d04 <+20>:	mov	r3, pc
+0x00008d06 <+22>:	adds	r3, #4 ; r3 = 0x00008d08 + 4 = 0x00008d0c
+0x00008d08 <+24>:	push	{r3}
+0x00008d0a <+26>:	pop	{pc}
+0x00008d0c <+28>:	pop	{r6}		; (ldr r6, [sp], #4)
+0x00008d10 <+32>:	mov	r0, r3
+0x00008d14 <+36>:	sub	sp, r11, #0
+0x00008d18 <+40>:	pop	{r11}		; (ldr r11, [sp], #4)
+0x00008d1c <+44>:	bx	lr
+```
+
+At instruction `0x00008d04`, the `pc` is `0x00008d08`, and adding `4` gives us `0x00008d0c`.
+
+After that, the program pushes this value stored in `r3` onto the stack, then returns from Thumb State after popping `r6`, and moves `r3` into `r0`, the return register.
+
+`key2()` is equal to `0x00008d0c`
 
 #### Key 3
 
@@ -272,6 +302,11 @@ int key3(){
 
 ### Capturing the Flag
 
-```sh
+`key1()+key2()+key3()` is `0x00008ce4 + 0x00008d0c + 0x00008d80 = 0x1a770` which is `108400` in decimal.
 
+```sh
+/ $ ./leg
+Daddy has very strong arm! : 108400
+Congratz!
+My daddy has a lot of ARMv5te muscle!
 ```

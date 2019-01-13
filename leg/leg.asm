@@ -54,10 +54,10 @@ Dump of assembler code for function key2:
    0x00008cf0 <+0>:	push	{r11}		; (str r11, [sp, #-4]!)
    0x00008cf4 <+4>:	add	r11, sp, #0
    0x00008cf8 <+8>:	push	{r6}		; (str r6, [sp, #-4]!)
-   0x00008cfc <+12>:	add	r6, pc, #1
+   0x00008cfc <+12>:	add	r6, pc, #1 ; r6 = 0x00008d04 + 1 = 0x00008d06
    0x00008d00 <+16>:	bx	r6
    0x00008d04 <+20>:	mov	r3, pc
-   0x00008d06 <+22>:	adds	r3, #4
+   0x00008d06 <+22>:	adds	r3, #4 ; r3 = 0x00008d08 + 4 = 0x00008d0c
    0x00008d08 <+24>:	push	{r3}
    0x00008d0a <+26>:	pop	{pc}
    0x00008d0c <+28>:	pop	{r6}		; (ldr r6, [sp], #4)
@@ -76,4 +76,4 @@ Dump of assembler code for function key3:
    0x00008d34 <+20>:	pop	{r11}		; (ldr r11, [sp], #4)
    0x00008d38 <+24>:	bx	lr
 End of assembler dump.
-(gdb) 
+(gdb)
