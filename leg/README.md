@@ -13,6 +13,36 @@ Download : http://pwnable.kr/bin/leg.asm
 ssh leg@pwnable.kr -p2222 (pw:guest)
 
 ## Solution
+
+Let's try to ssh into the server and see what we can find.
+
+```sh
+ctftools ❯ ssh leg@pwnable.kr -p2222
+```
+
+We're immediately greeted with a bunch of error logs dumped to the screen, but let's look around.
+
+```sh
+/ $ ls -la
+total 628
+drwxr-xr-x   11 root     0                0 Nov 10  2014 .
+drwxr-xr-x   11 root     0                0 Nov 10  2014 ..
+drwxrwxr-x    2 root     0                0 Nov 10  2014 bin
+drwxrwxr-x    2 root     0                0 Nov 10  2014 boot
+drwxrwxr-x    2 root     0                0 Nov 10  2014 dev
+drwxrwxr-x    3 root     0                0 Nov 10  2014 etc
+-r--------    1 1001     0               38 Nov 10  2014 flag
+---s--x---    1 1001     1000        636419 Nov 10  2014 leg
+lrwxrwxrwx    1 root     0               11 Nov 10  2014 linuxrc -> bin/busybox
+dr-xr-xr-x   33 root     0                0 Jan  1 00:00 proc
+drwxrwxr-x    2 root     0                0 Nov 10  2014 root
+drwxrwxr-x    2 root     0                0 Nov 10  2014 sbin
+drwxrwxr-x    2 root     0                0 Nov 10  2014 sys
+drwxrwxr-x    4 root     0                0 Nov 10  2014 usr
+```
+
+We'll need `leg` to read `flag` for us.
+
 Let's examine the C and ASM source code of the two provided files.
 
 ```c
@@ -176,7 +206,62 @@ leg.c:16: Error: invalid char '{' beginning operand 1 `{r6}'
 leg.c:21: Error: too many memory references for `mov'
 ```
 
-Seems like it's just pseudo-code.
+This is ARM code, so we're unable to compile on an x86 machine.
+
+According to the C program, we can print `flag` if we make it inside the following condition:
+
+```c
+if( (key1()+key2()+key3()) == key )
+```
+
+Let's start reversing each `key` function.
+
+```c
+int key1(){
+	asm("mov r3, pc\n");
+}
+```
+
+`pc` in ARM is Program Counter, so `key1()` should return the address of the next instruction at that moment.
+
+```asm
+0x00008cdc <+8>:	mov	r3, pc
+0x00008ce0 <+12>:	mov	r0, r3
+```
+
+`key1()` is equal to `0x00008ce0`.
+
+```c
+int key3(){
+	asm("mov r3, lr\n");
+}
+```
+
+`lr` in ARM is Link Register, which stores the return address of the function.
+
+```asm
+0x00008d7c <+64>:	bl	0x8d20 <key3>
+0x00008d80 <+68>:	mov	r3, r0
+```
+
+`key3()` is equal to `0x00008d80`.
+
+```c
+nt key2(){
+	asm(
+	"push	{r6}\n"
+	"add	r6, pc, $1\n"
+	"bx	r6\n"
+	".code   16\n"
+	"mov	r3, pc\n"
+	"add	r3, $0x4\n"
+	"push	{r3}\n"
+	"pop	{pc}\n"
+	".code	32\n"
+	"pop	{r6}\n"
+	);
+}
+```
 
 ### Capturing the Flag
 
