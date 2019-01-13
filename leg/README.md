@@ -216,6 +216,8 @@ if( (key1()+key2()+key3()) == key )
 
 Let's start reversing each `key` function.
 
+### Key 1
+
 ```c
 int key1(){
 	asm("mov r3, pc\n");
@@ -231,20 +233,7 @@ int key1(){
 
 `key1()` is equal to `0x00008ce0`.
 
-```c
-int key3(){
-	asm("mov r3, lr\n");
-}
-```
-
-`lr` in ARM is Link Register, which stores the return address of the function.
-
-```asm
-0x00008d7c <+64>:	bl	0x8d20 <key3>
-0x00008d80 <+68>:	mov	r3, r0
-```
-
-`key3()` is equal to `0x00008d80`.
+### Key 2
 
 ```c
 int key2(){
@@ -262,6 +251,24 @@ int key2(){
 	);
 }
 ```
+
+### Key 3
+
+```c
+int key3(){
+	asm("mov r3, lr\n");
+}
+```
+
+`lr` in ARM is Link Register, which stores the return address of the function.
+
+```asm
+0x00008d7c <+64>:	bl	0x8d20 <key3>
+0x00008d80 <+68>:	mov	r3, r0
+```
+
+`key3()` is equal to `0x00008d80`.
+
 
 ### Capturing the Flag
 
