@@ -300,9 +300,10 @@ int key3(){
 `key3()` is equal to `0x00008d80`.
 
 
-### Capturing the Flag
-
 `key1()+key2()+key3()` is `0x00008ce4 + 0x00008d0c + 0x00008d80 = 0x1a770` which is `108400` in decimal.
+
+
+### Capturing the Flag
 
 ```sh
 / $ ./leg
