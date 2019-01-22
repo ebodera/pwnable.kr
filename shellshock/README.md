@@ -1,6 +1,6 @@
 ![logo](http://www.pwnable.kr/img/shellshock.png)
 
-# mistake
+# shellshock
 The tenth challenge from pwnable.kr
 
 ## Description
