@@ -13,3 +13,4 @@ My write-ups for the challenges in [pwnable.kr](pwnable.kr) as I work through th
 - [random](random/README.md)
 - [input](input/README.md)
 - [leg](leg/README.md)
+- [mistake](mistake/README.md)
